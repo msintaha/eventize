@@ -64,10 +64,6 @@
   $(document).ready(function() {
     $('select').material_select();
   });
-    $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
-  });
      </script>
    <form class="col s12" method="POST" >
     <div class="row">
@@ -110,7 +106,6 @@
               <input type="date" class="datepicker" name="date">
           </div>
       </div>
-     <!--  <a class="waves-effect waves-light btn pink accent-3"><i class="mdi-action-search"></i></a> -->
        <input type="submit" value="Search!" class="btn waves-effect waves-light purple lighten-1">
    </form>
       </div>
@@ -130,9 +125,11 @@ if(isset($_POST['category']) && isset($_POST['location']) || isset($_POST['date'
     }
      if(!empty($events)){
     foreach($events as $event){ 
+      $eid=$event['id'];
+      $img=get_img($eid);
 ?>
     <li class="collection-item avatar m-page scene_element scene_element--fadeinup">
-      <i class="mdi-description circle"></i>
+      <img src="<?php echo $img[0];?>" class="circle">
   <a href="get_event.php?id=<?php echo $event['id']; ?>">    <span class="title"><?php echo $event['title'];?></span></a>
       <p><?php echo $event['location']; ?>
       </p>

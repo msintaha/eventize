@@ -137,7 +137,7 @@ foreach($event as $eve){
        <div class="file-field input-field">
       <input class="file-path validate" type="text"/>
       <div class="btn waves-effect waves-light pink accent-3">
-        <span>Display Pic</span>
+        <span>Display</span>
         <input type="file" name="coverphoto"/>
       </div>
     </div>

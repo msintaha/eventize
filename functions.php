@@ -1,16 +1,14 @@
 <?php
 function get_events($cat,$loc){
 	$events = array();
-	$query = "SELECT id,title,location,date_posted,city FROM event 
+	$query = "SELECT id,title,location,start,end,date_posted,city FROM event 
 	WHERE `category`='{$cat}' and `location`='{$loc}'";
 	
 
 	if (isset($date) ){
 		$query .= " and `date_posted` = {$date}";
 	}
-
 	$q= mysql_query($query);
-
 	while ($row = mysql_fetch_assoc($q)) {
 		$events[] = $row;
 	}
@@ -29,7 +27,8 @@ function get_events_bydate($cat,$loc,$date){
 }
 function get_event($id){
 		$events = array();
-	$query = "SELECT id,title,description,organizer,location,date_posted,city,category,contact FROM event 
+	$query = "SELECT id,title,start,end,description,organizer,
+	location,date_posted,city,category,contact FROM event 
 	WHERE `id`={$id}";
 	$q= mysql_query($query);
 	while ($row = mysql_fetch_assoc($q)) {
@@ -38,11 +37,23 @@ function get_event($id){
 	}
 	return $events;
 }
+function get_event_bydate($date,$user){
+	$events = array();
+	//$query = "SELECT title,start,end FROM `event` WHERE `date_posted`='{$date}'";
+	// $query="SELECT `event.title`,`event.start`,`event.end` from `event` INNER JOIN 
+	// `follow` ON `event.id`=`follow.event` AND `event.date_posted`='{$date}'
+	//  AND `follow.user`='{$user}'";
+	$query="SELECT title,start,end from event,follow WHERE 
+	 event.id=follow.event AND event.date_posted='{$date}' AND follow.user='{$user}'";
+	$q= mysql_query($query);
+	$row = mysql_fetch_row($q) ;
+	return $row;
+}
 function get_img($eid){
 	$events = array();
 
 	$query = "SELECT `path` FROM `photos` WHERE `event_id`={$eid}";
-	
+
 	$q= mysql_query($query);
 	$row = mysql_fetch_row($q) ;
 	return $row;

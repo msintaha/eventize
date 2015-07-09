@@ -109,10 +109,10 @@
       </div>
       <div class="row">
          <div class="input-field col s6">
-           Start Time: <input type="time" name="usr_time">
+           Start Time: <input type="time" name="start">
          </div>
           <div class="input-field col s6">
-           End Time: <input type="time" name="usr_time">
+           End Time: <input type="time" name="end">
          </div>
       </div>
       <div class="row">
@@ -154,13 +154,15 @@ if(isset($_POST['title']) && isset($_POST['date']) && isset($_POST['category']) 
       $name= $_POST['title'];
       $date = $_POST['date'];
       $desc = $_POST['desc'];
+      $start=$_POST['start'];
+      $end=$_POST['end'];
       $category = $_POST['category'];
       $location = $_POST['location'];
       $contact = $_POST['contact'];
       $ticket=$_POST['ticket'];
       $organizer=$_POST['organizer'];
       $city=$_POST['city'];
-
+      
         $insert="INSERT INTO event values ('','{$name}','{$desc}','{$organizer}','{$location}','{$date}','{$category}','{$city}','{$contact}');";
      
         if($query=mysql_query($insert)){
