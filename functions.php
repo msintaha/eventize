@@ -37,12 +37,18 @@ function get_event($id){
 	}
 	return $events;
 }
+function fetch_preference($user){
+	$events = array();
+	$query = "SELECT event.id,title, location,date_posted,category FROM event,cat_preference WHERE event.category=cat_preference.cat_event 
+	AND cat_preference.username='{$user}'";
+	$q= mysql_query($query);
+	while ($row = mysql_fetch_assoc($q)) {
+		$events[] = $row;
+	}
+	return $events;
+}
 function get_event_bydate($date,$user){
 	$events = array();
-	//$query = "SELECT title,start,end FROM `event` WHERE `date_posted`='{$date}'";
-	// $query="SELECT `event.title`,`event.start`,`event.end` from `event` INNER JOIN 
-	// `follow` ON `event.id`=`follow.event` AND `event.date_posted`='{$date}'
-	//  AND `follow.user`='{$user}'";
 	$query="SELECT title,start,end from event,follow WHERE 
 	 event.id=follow.event AND event.date_posted='{$date}' AND follow.user='{$user}'";
 	$q= mysql_query($query);
@@ -51,9 +57,7 @@ function get_event_bydate($date,$user){
 }
 function get_img($eid){
 	$events = array();
-
 	$query = "SELECT `path` FROM `photos` WHERE `event_id`={$eid}";
-
 	$q= mysql_query($query);
 	$row = mysql_fetch_row($q) ;
 	return $row;

@@ -52,7 +52,7 @@ if(!isset($user)){
 <h5><?php echo $_SESSION['username'];?></h5>
  </center>
     <li><a href="index.php">Search Events</a></li>
-    <li><a href="calendar.php" class="active">This month's calendar</a></li>
+    <li class="activeh"><a href="calendar.php">This month's calendar</a></li>
     <li><a href="settings.php">Settings</a></li>
   </ul>
  

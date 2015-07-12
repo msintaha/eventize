@@ -13,8 +13,20 @@ nav .brand-logo {
   .side-nav li:hover{
     background:#ab47bc;
   }
-    .side-nav li a:hover{
+  .activeh,.activeh a{
+    background:#ab47bc !important;
+    color:white !important;
+  }
+  .side-nav li a:hover{
      color:white !important;
+  }
+  #err{
+    margin-left: 140px !important;
+    font-size: 18px !important;
+    color:#e91e63  !important;
+  }
+  #settingform{
+    margin-left: 300px;
   }
   .woo{
     background: #f50057;
@@ -52,7 +64,7 @@ p {
     width: 100%;
   }
   input,select{
-      border-left: 0px solid transparent;
+  border-left: 0px solid transparent;
   border-right: 0px solid transparent;
   border-top: 0px solid transparent;
   border-bottom: 3px solid #ab47bc;
@@ -64,6 +76,12 @@ p {
   border-radius: 10px;
   }
   #login{
+    width:36%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+   #register{
     width:50%;
     margin-left: auto;
     margin-right: auto;

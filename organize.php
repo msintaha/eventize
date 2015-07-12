@@ -38,8 +38,8 @@
         <li><a href="popular.php">Popular</a></li>
         <li><a href="latest.php">Latest</a></li>
         <li><a href="organize.php">Organize</a></li>
-          <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
+          <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
+      <li><a href="login.php" class="waves-effect waves-light btn pink accent-3">Login</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>

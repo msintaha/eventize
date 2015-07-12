@@ -35,7 +35,7 @@ if(!isset($_SESSION['username'])){
     <li><a href="calendar.php">This month's calendar</a></li>
     <li><a href="settings.php">Settings</a></li>
   </ul>
- 
+
 
 
 	</body>

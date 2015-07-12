@@ -23,8 +23,8 @@
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-        <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
+        <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
+      <li><a  href="login.php" class="waves-effect waves-light btn pink accent-3">Login</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
