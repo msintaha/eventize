@@ -10,6 +10,7 @@ if(isset($_SESSION['username'])){
 } else{
   $user=NULL;
 }
+$comments=get_comments($eid);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,8 +39,8 @@ if(isset($_SESSION['username'])){
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-        <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
+        <li><a class="waves-effect waves-light btn purple lighten-1" href="register.php">Register</a></li>
+      <li><a class="waves-effect waves-light btn pink accent-3" href="login.php">Login</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
@@ -54,7 +55,9 @@ if(isset($_SESSION['username'])){
   </nav>
 <?php
 foreach($event as $eve){
+  $admin= $eve['admin'];
 ?>
+
    <div class="row" style="width:80%;">
       <div class="col s12 pink lighten-2"><br><center><h2 style="color:white;"><?php echo $eve['title']; ?></h2></center><br></div>
       <br>
@@ -66,7 +69,7 @@ foreach($event as $eve){
         <li class="tab col s3 purple lighten-1"><a href="#test3" style="color:white;">Discussion</a></li>
         
         <?php
-        if(isset($_SESSION['username'])){
+        if(isset($_SESSION['username'])===$admin){
           ?>
         <li class="tab col s3 purple lighten-1"><a href="#test4" style="color:white;">Settings</a></li>
           <?php
@@ -77,7 +80,6 @@ foreach($event as $eve){
     </div>
     <div id="test1" class="col s12">
 
-  
  <div class="row">
 
       <div class="col s12 m4 l3"> <!-- Note that "m4 l3" was added -->
@@ -128,9 +130,43 @@ foreach($event as $eve){
       ?>
       </ul>
     </div>
-    <div id="test3" class="col s12">Test 3</div>
+    <div id="test3" class="col s12">
+      <br>
+
+  <ul class="collection">
+  <?php foreach ($comments as $comment) {
+    ?>
+
+    <li class="collection-item avatar">
+      <img src="assets/images/avatar.png" alt="" class="circle">
+      <span class="title"><b><?php echo $comment['username'] ?></b></span>
+      <p><?php echo $comment['comment'] ?>
+      </p>
+      <a href="#!" class="secondary-content"><?php echo $comment['date_posted'] ?></a>
+    </li>
+       <?php
+  }?>
+    </ul><br>
+<?php if(isset($_SESSION['username'])): ?>
+    <div class="row">
+    <form class="col s12" method="POST">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea" name="comment"></textarea>
+          <label for="textarea1">Write Comment</label>
+        </div>
+         <input type="submit" class="btn waves-effect waves-light pink accent-3" value="Post!">
+      </div>
+    </form>
+  </div>
+<?php endif;?>
+
+
+
+
+    </div>
     
-    <?php if(isset($_SESSION['username'])): ?>
+    <?php  if(isset($_SESSION['username'])===$admin): ?>
     <div id="test4" class="col s12">
   <br><br>
     <form action="" method="POST" enctype="multipart/form-data">
@@ -153,6 +189,17 @@ foreach($event as $eve){
   </body>
 </html>
 <?php
+
+if(isset($_POST['comment']) && isset($user)){
+  if(!empty($_POST['comment'])){
+    $comm=$_POST['comment'];
+     $eid=(int)$eid;
+ $que="INSERT INTO `comments` VALUES ('',{$eid},'{$user}','{$comm}',NOW())";
+ if($que= mysql_query($que)){
+  header('index.php');
+ } 
+  }
+}
 if (isset($_POST['uploadpic'])) {
         if (((@$_FILES["coverphoto"]["type"]=="image/jpeg") || (@$_FILES["coverphoto"]["type"]=="image/png") || (@$_FILES["coverphoto"]["type"]=="image/gif"))&&(@$_FILES["coverphoto"]["size"] < 1048576)) //1 Megabyte
   {

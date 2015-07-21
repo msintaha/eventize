@@ -25,9 +25,27 @@ function get_events_bydate($cat,$loc,$date){
 	}
 	return $events;
 }
+function add_comment($eid,$user,$body){
+ $eid=(int)$eid;
+ $user=mysql_real_escape_string($user);
+ $body=mysql_real_escape_string($body);
+ $que="INSERT INTO `comments` VALUES ('',{$eid},'{user}','{$body}',NOW())";
+ mysql_query($que);
+}
+function get_comments($eid){
+ $eid=(int) $eid;
+ $sql= "SELECT
+  username,comment,date_posted FROM comments WHERE `event_id`={$eid}";
+  	$comments=mysql_query($sql);
+  	$return=array();
+  	while($row=mysql_fetch_assoc($comments)){
+  		$return[]=$row;
+  	}
+  	return $return;
+}
 function get_event($id){
 		$events = array();
-	$query = "SELECT id,title,start,end,description,organizer,
+	$query = "SELECT id,title,start,end,description,organizer,admin,
 	location,date_posted,city,category,contact FROM event 
 	WHERE `id`={$id}";
 	$q= mysql_query($query);

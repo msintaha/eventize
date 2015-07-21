@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2015 at 07:45 PM
+-- Generation Time: Jul 09, 2015 at 04:00 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -72,26 +72,6 @@ INSERT INTO `categories` (`id`, `category`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cat_preference`
---
-
-CREATE TABLE IF NOT EXISTS `cat_preference` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(40) NOT NULL,
-  `cat_event` varchar(70) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
-
---
--- Dumping data for table `cat_preference`
---
-
-INSERT INTO `cat_preference` (`id`, `username`, `cat_event`) VALUES
-(11, 'meow', 'Conferences & Seminar');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `event`
 --
 
@@ -152,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(40) NOT NULL,
   `event_id` int(10) NOT NULL,
-  `path` varchar(150) NOT NULL,
+  `path` varchar(100) NOT NULL,
   `image_name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
@@ -168,19 +148,6 @@ INSERT INTO `photos` (`id`, `user`, `event_id`, `path`, `image_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pro_pic`
---
-
-CREATE TABLE IF NOT EXISTS `pro_pic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(2) NOT NULL,
-  `path` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -188,18 +155,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(5) NOT NULL AUTO_INCREMENT,
   `username` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL,
+  `password` varchar(30) NOT NULL,
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `name`) VALUES
-(1, 'msintaha', 'msintaha94@gmail.com', 'nothing1234', 'Mifta Sintaha'),
-(4, 'meow', 'meow@hotmail.com', 'da6523a488577c99148969e5841908ae', 'Meow meow');
+(1, 'msintaha', 'msintaha94@gmail.com', 'nothing1234', 'Mifta Sintaha');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

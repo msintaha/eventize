@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="assets/js/jquery.js"></script>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>Eventize</title>
@@ -60,11 +60,13 @@
   <div class="container" id="cont">
     <div class="section m-page scene_element scene_element--fadeinup">
      <br>
-     <script type="text/javascript">
-  $(document).ready(function() {
-    $('select').material_select();
-  });
-     </script>
+ 
+<script type="text/javascript">
+ $(document).ready(function() {
+     $('select').material_select(); 
+   }); 
+</script>
+ 
    <form class="col s12" method="POST" >
     <div class="row">
           <div class="input-field col s4" style="z-index:9999;">

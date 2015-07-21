@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>Eventize</title>
+   <script src="assets/js/jquery.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/keyframes.css">
   <link rel="stylesheet" type="text/css" href="assets/css/pageTransitions.css">
   <script src="assets/js/jquery.smoothState.js"></script>
@@ -182,7 +183,6 @@ if(isset($_POST['title']) && isset($_POST['date']) && isset($_POST['category']) 
 
 </div>
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="assets/js/materialize.js"></script>
   <script src="assets/js/init.js"></script>
 
