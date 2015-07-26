@@ -67,7 +67,7 @@ function fetch_preference($user){
 }
 function get_event_bydate($date,$user){
 	$events = array();
-	$query="SELECT title,start,end from event,follow WHERE 
+	$query="SELECT title,start,end FROM event,follow WHERE 
 	 event.id=follow.event AND event.date_posted='{$date}' AND follow.user='{$user}'";
 	$q= mysql_query($query);
 	$row = mysql_fetch_row($q) ;
@@ -79,6 +79,35 @@ function get_img($eid){
 	$q= mysql_query($query);
 	$row = mysql_fetch_row($q) ;
 	return $row;
+}
+function get_latest(){
+	$events = array();
+	$sql= "SELECT `title`, `date_posted`,`id`,`location` FROM `event` ORDER BY `date_posted` DESC LIMIT 0, 10";
+$records= mysql_query($sql);
+while ($row = mysql_fetch_assoc($records)) {
+		$events[] = $row;
+	}
+	return $events;
+}
+function get_popular(){
+	$events = array();
+	$sql= "SELECT t1.id,t1.title,t1.description,t1.location,t1.date_posted FROM event t1 
+	INNER JOIN follow t2 on t1.id=t2.event GROUP BY t1.id ORDER BY COUNT(t2.event) DESC";
+$records= mysql_query($sql);
+while ($row = mysql_fetch_assoc($records)) {
+		$events[] = $row;
+	}
+	return $events;	
+}
+function get_events_by_preference($username){
+	$events = array();
+ $query="SELECT title,location,event.id FROM event,cat_preference WHERE
+ cat_preference.username='$username' AND cat_preference.cat_event=event.category";
+$query= mysql_query($query);
+	while ($row = mysql_fetch_assoc($query)) {
+		$events[] = $row;
+	}
+	return $events;
 }
 function is_following($event_id,$user){
 	$follow="Follow";

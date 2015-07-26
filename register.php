@@ -18,24 +18,33 @@
 </head>
  
  <body>
- <nav class="white" role="navigation">
+  <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="index.php" class="brand-logo" style="color:#f50057;">eventize</a>
       <ul class="right hide-on-med-and-down">
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-        <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
+         <?php
+  
+
+       if(!isset($_SESSION['username'])){?>
+           <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
       <li><a  href="login.php" class="waves-effect waves-light btn pink accent-3">Login</a></li>
       </ul>
+<?php }
+else {
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="popular.php">Popular</a></li>
-        <li><a href="latest.php">Latest</a></li>
-        <li><a href="organize">Organize</a></li>
-          <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
-      </ul>
+  echo "<li><a href='profile.php'><u> ".$_SESSION['username']."</u></a> </li>  ";
+    //    echo"<li> <a  style='color:#ab47bc'> Cart(". $_SESSION['itemcount'].")</li>";
+    echo "<li><a href='check-cart.php' class='waves-effect waves-light btn purple lighten-1' target='_blank'>Check-cart</a></li>";
+    echo "<li><a href='logout.php' class='waves-effect waves-light btn purple lighten-1' >Logout</a></li> </ul>";
+        }
+    
+
+?>
+
+     
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>
   </nav>
@@ -79,7 +88,11 @@
 <div id="err">
  <?php
  if(isset($_GET['success']) && empty($_GET['success'])){
-	 echo 'You have been registered successfully!';
+	
+	 echo "<script language='javascript'>
+                alert('You have been registered successfully! Now please login to enjoy the experience');
+                window.location = 'login.php';
+                </script>";
  }else{
  
  if(empty($_POST) === false && empty($errors)=== true){

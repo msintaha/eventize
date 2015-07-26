@@ -23,17 +23,25 @@
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-        <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
+         <?php
+      session_start();
+       if(!isset($_SESSION['username'])){?>
+           <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
       <li><a  href="login.php" class="waves-effect waves-light btn pink accent-3">Login</a></li>
       </ul>
+<?php } 
+else {
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="popular.php">Popular</a></li>
-        <li><a href="latest.php">Latest</a></li>
-        <li><a href="organize">Organize</a></li>
-          <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
-      </ul>
+  echo "<li><a href='profile.php'><u> ".$_SESSION['username']."</u></a> </li>  ";
+    //    echo"<li> <a  style='color:#ab47bc'> Cart(". $_SESSION['itemcount'].")</li>";
+    echo "<li><a href='check-cart.php' class='waves-effect waves-light btn purple lighten-1' target='_blank'>Check-cart</a></li>";
+    echo "<li><a href='logout.php' class='waves-effect waves-light btn purple lighten-1' >Logout</a></li> </ul>";
+        }
+    
+
+?>
+
+     
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>
   </nav>
@@ -110,6 +118,16 @@
       </div>
        <input type="submit" value="Search!" class="btn waves-effect waves-light purple lighten-1">
    </form>
+     <form class="col s12" method="GET" >
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="mdi-editor-mode-edit prefix"></i>
+          <input type="text" id="icon_prefix2" name="element" class="materialize-textarea"></textarea>
+          <label for="icon_prefix2">Search by name</label>
+        </div>
+      </div>
+    </form>
+  
       </div>
   <ul class="collection">
 
@@ -146,6 +164,50 @@ if(isset($_POST['category']) && isset($_POST['location']) || isset($_POST['date'
   }
 }
  ?>
+
+  <?php
+ if(isset($_GET["element"])){
+    $r=true;
+      $sql = "SELECT * FROM event";
+      $result = mysql_query($sql);
+      $i = 0;
+      $name = array();
+      while($row = mysql_fetch_array($result)){
+          $name[$i] = $row['title'];
+          $i++;
+      }
+      $size = count($name);
+      $j = 0;
+      while($j<$size){
+        $pos = stripos($name[$j], $_GET['element']);
+            if ($pos !== false) {
+            $r=false;
+                $sql1 = "SELECT * FROM event WHERE title= '".$name[$j] ."'";
+            $result1 = mysql_query($sql1);
+            while($event = mysql_fetch_array($result1)){
+              $eid=$event['id'];
+      $img=get_img($eid);
+?>
+    <li class="collection-item avatar m-page scene_element scene_element--fadeinup">
+      <img src="<?php echo $img[0];?>" class="circle">
+  <a href="get_event.php?id=<?php echo $event['id']; ?>">    <span class="title"><?php echo $event['title'];?></span></a>
+      <p><?php echo $event['location']; ?>
+      </p>
+      <a href="#!" class="secondary-content"><i class="mdi-action-grade"></i></a>
+    </li>
+<?php
+         }     
+        }
+        $j++;
+      }
+      if($r)
+  {echo "<script language='javascript'>
+                alert('The event you are looking for is currently not available.');
+          
+                </script>";}
+  }
+  
+         ?>
   </ul>
   <footer class="page-footer pink accent-3" style="z-index:0;">
           <div class="container">

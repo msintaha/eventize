@@ -1,6 +1,8 @@
 <?php
 require 'connection.php';
 session_start();
+$username=$_SESSION['username'];
+$event=get_events_by_preference($username);
 if(!isset($_SESSION['username'])){
   header('Location:index.php');
 }
@@ -29,15 +31,33 @@ if(!isset($_SESSION['username'])){
 	<body>
   <ul id="slide-out" class="side-nav fixed"><br>
  <center> <img src="assets/images/logo.png" class="circle">
-<h5><?php echo $_SESSION['username'];?></h5>
+<h5><a href="profile.php"><?php echo $_SESSION['username'];?></a></h5>
  </center>
  <center><a href="logout.php">Logout</a></center>
     <li><a href="index.php">Search Events</a></li>
     <li><a href="calendar.php">This month's calendar</a></li>
     <li><a href="settings.php">Settings</a></li>
   </ul>
-
-
-
-	</body>
+   <div id="settingform">
+<h2>Welcome <?php echo $_SESSION['name']; ?>!</h2>
+<h5>Some events you might be interested in:</h5>
+<ul>
+<?php foreach ($event as $eve) { 
+ $eid=$eve['id'];
+$img=get_img($eid);
+  ?>
+  <li id="cards">  <div class="card small">
+  <div class="card-image">
+              <img src="<?php echo $img[0];?>">
+              <span class="card-title"><?php echo $eve['title'];?></span>
+            </div>
+            <div class="card-content">
+            <h5><a href="get_event.php?id=<?php echo $eve['id']; ?>"><?php echo $eve['title'];?></a></h5>
+              <p><?php echo $eve['location'];?></p>
+     </div>
+  </div></li>
+<?php }?>
+</ul>
+</div>
+</body>
 </html>

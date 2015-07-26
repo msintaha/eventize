@@ -31,7 +31,7 @@ if(!isset($_SESSION['username'])){
 	<body>
   <ul id="slide-out" class="side-nav fixed"><br>
  <center> <img src="assets/images/logo.png" class="circle">
-<h5><?php echo $_SESSION['username'];?></h5>
+<h5><a href="profile.php"><?php echo $_SESSION['username'];?></a></h5>
  </center>
     <li><a href="index.php">Search Events</a></li>
     <li><a href="calendar.php">This month's calendar</a></li>
@@ -39,12 +39,12 @@ if(!isset($_SESSION['username'])){
   </ul>
 
  <div id="settingform">
- 	<form action="" method="POST">
+ 	<form  method="POST">
  		 <div class="row">
           <div class="input-field col s12" style="z-index:9999;">
          <h5> What category events do you want to be notified about?</h5>
       <p>
-      <input type="checkbox" name="chk[]" class="filled-in" value="Arts & Culture" id="Arts_Culture" />
+      <input type="checkbox" name="chk[]" class="filled-in"  value="Arts & Culture" id="Arts_Culture" />
       <label for="Arts_Culture">Arts & Culture</label>&nbsp;
    
       <input type="checkbox" name="chk[]" class="filled-in" id="Education_Learning" value="Education & Learning" />
@@ -79,7 +79,9 @@ if(!isset($_SESSION['username'])){
     <br>
     <input type="submit" name="Submit" class="btn waves-effect waves-light pink accent-3" >
 <?php
+if(isset($_POST['chk'])){
 $check=$_POST['chk'];
+}
 if(isset($check)){
 	for ($i=0; $i <sizeof($check); $i++) { 
 		$query="INSERT INTO cat_preference VALUES('','$user','".$check[$i]."')";

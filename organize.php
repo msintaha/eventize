@@ -31,17 +31,25 @@
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-        <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
-      </ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="popular.php">Popular</a></li>
-        <li><a href="latest.php">Latest</a></li>
-        <li><a href="organize.php">Organize</a></li>
-          <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a href="login.php" class="waves-effect waves-light btn pink accent-3">Login</a></li>
-      </ul>
+<?php session_start();
+      if(!isset($_SESSION['username'])){
+
+echo "<script language='javascript'>
+                alert('Please login to organize an event');
+                window.location = 'login.php';
+                </script>";
+        ?>
+         
+<?php } 
+else {
+
+  echo "<li><a href='profile.php'><u> ".$_SESSION['username']."</u></a> </li>  ";
+    //    echo"<li> <a  style='color:#ab47bc'> Cart(". $_SESSION['itemcount'].")</li>";
+    echo "<li><a href='check-cart.php' class='waves-effect waves-light btn purple lighten-1' target='_blank'>Check-cart</a></li>";
+    echo "<li><a href='logout.php' class='waves-effect waves-light btn purple lighten-1' >Logout</a></li> </ul>";
+        }
+?>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>
   </nav>
@@ -150,7 +158,7 @@
    </form>
    <?php
 require 'connection.php';
-if(isset($_POST['title']) && isset($_POST['date']) && isset($_POST['category']) && isset($_POST['location']) && isset($_POST['desc']) && isset($_POST['ticket']) && isset($_POST['contact']) && isset($_POST['sponsors']) && isset($_POST['organizer'])){
+if(isset($_POST['title']) && isset($_POST['date']) && isset($_POST['category']) && isset($_POST['location']) && isset($_POST['desc']) && isset($_POST['ticket']) && isset($_POST['contact'])  && isset($_POST['organizer'])){
   if(!empty($_POST['title']) && !empty($_POST['date']) && !empty($_POST['desc']) && !empty($_POST['category'])){
       $name= $_POST['title'];
       $date = $_POST['date'];
@@ -163,11 +171,19 @@ if(isset($_POST['title']) && isset($_POST['date']) && isset($_POST['category']) 
       $ticket=$_POST['ticket'];
       $organizer=$_POST['organizer'];
       $city=$_POST['city'];
+      $admin= ($_SESSION['username']);
       
-        $insert="INSERT INTO event values ('','{$name}','{$desc}','{$organizer}','{$location}','{$date}','{$category}','{$city}','{$contact}');";
+        $insert="INSERT INTO event values ('','{$name}','{$desc}','{$organizer}','{$location}','{$date}','{$category}','{$city}','{$contact}','{$admin}','{$start}','{$end}','{$ticket}');";
      
         if($query=mysql_query($insert)){
-          echo '<br><h5 class="header center white-text text">Event Registration Complete!</h5>';
+          $sql1 = "SELECT * FROM event WHERE title= '".$name."'";
+            $result1 = mysql_query($sql1);
+            $event = mysql_fetch_array($result1);
+          $id=$event['id'];
+          echo "<script language='javascript'>
+                alert('Event registration has been complete!');
+                window.location = 'get_event.php?id="; echo"$id';
+                </script>";
         }
         else{
           echo '<br><h5 class="header center white-text text">Sorry, there was an error. Please try again.</h5>';

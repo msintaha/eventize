@@ -16,11 +16,15 @@ if (empty($_POST)===false) {
 		}
 		
 		$login= login($username, $password);
+    $theName=get_name($username);
 		if($login === false){
 			$errors[]= 'That username/password combination is incorrect.';
 		}else{
 		$_SESSION['user_id']= $login;
     $_SESSION['username']=$username;
+    $_SESSION['name']= $theName[0];
+     $_SESSION["itemcount"] = 0;
+    $_SESSION["itemlist"] = "";
 		header('Location: profile.php');
 		exit();
 		}

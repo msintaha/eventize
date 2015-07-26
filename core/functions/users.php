@@ -41,7 +41,14 @@ function email_exists($email){
 }
 
 
-
+function get_name($username){
+	$username= sanitize($username);
+	$q="SELECT `name` FROM `users` WHERE `username`='$username'";
+	$que= mysql_query($q);
+	$row = mysql_fetch_row($que) ;
+	return $row;
+	
+}
 function user_id_from_username($username){
 	$username= sanitize($username);
 	return mysql_result(mysql_query("SELECT `user_id` FROM `users` WHERE `username`= '$username'"),0,'user_id');

@@ -32,24 +32,31 @@ $comments=get_comments($eid);
   <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body class="m-scene" id="main">
-  <nav class="white" role="navigation">
+ <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="index.php" class="brand-logo" style="color:#f50057;">eventize</a>
       <ul class="right hide-on-med-and-down">
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-        <li><a class="waves-effect waves-light btn purple lighten-1" href="register.php">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3" href="login.php">Login</a></li>
+<?php
+       if(!isset($_SESSION['username'])){?>
+           <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
+      <li><a  href="login.php" class="waves-effect waves-light btn pink accent-3">Login</a></li>
       </ul>
+<?php } 
+else {
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="popular.php">Popular</a></li>
-        <li><a href="latest.php">Latest</a></li>
-        <li><a href="organize.php">Organize</a></li>
-          <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
-      </ul>
+  echo "<li><a href='profile.php'><u> ".$_SESSION['username']."</u></a> </li>  ";
+    //    echo"<li> <a  style='color:#ab47bc'> Cart(". $_SESSION['itemcount'].")</li>";
+    echo "<li><a href='check-cart.php' class='waves-effect waves-light btn purple lighten-1' target='_blank'>Check-cart</a></li>";
+    echo "<li><a href='logout.php' class='waves-effect waves-light btn purple lighten-1' >Logout</a></li> </ul>";
+        }
+    
+
+?>
+
+     
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>
   </nav>
@@ -69,11 +76,11 @@ foreach($event as $eve){
         <li class="tab col s3 purple lighten-1"><a href="#test3" style="color:white;">Discussion</a></li>
         
         <?php
-        if(isset($_SESSION['username'])===$admin){
+        if($user===$admin):
           ?>
         <li class="tab col s3 purple lighten-1"><a href="#test4" style="color:white;">Settings</a></li>
           <?php
-        }
+        endif;
         ?>
         
       </ul>
@@ -107,11 +114,14 @@ foreach($event as $eve){
       </div>
 
       <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added 
-    --><br>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum 
-    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum 
-    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum  
-    Lorem Ipsum 
-    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum 
+    --><br><?php echo $eve['description'] ?>
+
+    <form name="sub"  method="POST">
+              <input type="hidden" name="buy" value="'.$eid.'" /> </br></br></br></br></br>
+                <button class="btn waves-effect waves-light pink accent-3" type="submit" name="action">Buy ticket to this event
+        <i class="mdi-content-send right"></i>
+      </button >
+              </form>
 
       </div>
 </div>
@@ -166,15 +176,15 @@ foreach($event as $eve){
 
     </div>
     
-    <?php  if(isset($_SESSION['username'])===$admin): ?>
+    <?php  if($user===$admin): ?>
     <div id="test4" class="col s12">
   <br><br>
     <form action="" method="POST" enctype="multipart/form-data">
        <div class="file-field input-field">
       <input class="file-path validate" type="text"/>
       <div class="btn waves-effect waves-light pink accent-3">
-        <span>Display</span>
-        <input type="file" name="coverphoto"/>
+        <span>Pic</span>
+        <br><input type="file" name="coverphoto"/>
       </div>
     </div>
     <!-- <input type="file" name="coverphoto" /> -->
@@ -196,7 +206,7 @@ if(isset($_POST['comment']) && isset($user)){
      $eid=(int)$eid;
  $que="INSERT INTO `comments` VALUES ('',{$eid},'{$user}','{$comm}',NOW())";
  if($que= mysql_query($que)){
-  header('index.php');
+ header("refresh: 1;");
  } 
   }
 }
@@ -218,9 +228,30 @@ if (isset($_POST['uploadpic'])) {
     $img_id_before_md5 = "$profile_pic_name";
     $img_id = md5($img_id_before_md5);
     $profile_pic_query = mysql_query("INSERT INTO photos VALUES ('','$user',$eid,'assets/uploaded/$profile_pic_name','$img_id')");
-    header('Location:get_event.php?id='.$eid);
+    header('Location:index.php');
 
    }
   }
 }
 ?>
+ <?php
+            if(isset($_POST['action'])){
+              if(isset($_SESSION['username'])){
+                $_SESSION["itemcount"]++;
+                $_SESSION["itemlist"] .= $eid.",";
+                
+                
+                echo "<script language='javascript'>
+                alert('The ticket to this event has been added to your cart');
+                window.location='';
+                </script>";}
+
+                else{
+                echo "<script language='javascript'>
+                alert('Please login to enable ticket option');
+                window.location = 'login.php';
+                </script>";
+              
+            }
+              }
+            ?>

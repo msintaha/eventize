@@ -49,7 +49,7 @@ if(!isset($user)){
 	<body>
   <ul id="slide-out" class="side-nav fixed"><br>
  <center> <img src="assets/images/logo.png" class="circle">
-<h5><?php echo $_SESSION['username'];?></h5>
+<h5><a href="profile.php"><?php echo $_SESSION['username'];?></a></h5>
  </center>
     <li><a href="index.php">Search Events</a></li>
     <li class="activeh"><a href="calendar.php">This month's calendar</a></li>

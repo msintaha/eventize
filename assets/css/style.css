@@ -13,6 +13,15 @@ nav .brand-logo {
   .side-nav li:hover{
     background:#ab47bc;
   }
+  #cards{
+    display: inline;
+    float: left;
+    width: 28%;
+    margin: 10px;
+  }
+/*  .btn {
+    top:18px;
+  }*/
   .activeh,.activeh a{
     background:#ab47bc !important;
     color:white !important;

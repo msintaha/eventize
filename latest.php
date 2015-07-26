@@ -1,10 +1,7 @@
 
 <?php
 require 'connection.php';
-session_start();
-$sql= "SELECT `title`, `date_posted`,`id`,`location` FROM `event` WHERE `date_posted`=(SELECT MAX(`date_posted`) FROM `event`)";
-$records= mysql_query($sql);
-
+$events=get_latest();
 ?>
 <html>
 <head>
@@ -25,34 +22,31 @@ $records= mysql_query($sql);
   <script src="asset/js/functions.js"></script>
 </head>
 <body>
- <nav class="white" role="navigation">
+  <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="index.php" class="brand-logo" style="color:#f50057;">eventize</a>
-      <ul class="right hide-on-med-and-down">
+      <ul class="right hide-on-med-and-down" id="nv">
           <li><a href="popular.php" style="color:#ab47bc;">POPULAR</a></li>
         <li><a href="latest.php" style="color:#ab47bc;">LATEST</a></li>
         <li><a href="organize.php" style="color:#ab47bc;">ORGANIZE AN EVENT</a></li>
-       <li><a href="register.php" class="waves-effect waves-light btn purple lighten-1"
-        style="top:16px  !important;">Register</a></li>
-      
-<?php if(isset($_SESSION['username'])){ ?>
 
-          <li>  <a  href="profile.php"  
-      style="top:16px !important;text-decoration:underline;color:#f50057;"><?php echo $_SESSION['username'];?></a> </li>
-<?php }else{  ?>
-    <li>  <a  href="login.php" class="waves-effect waves-light btn pink accent-3" 
-      style="top:16px  !important;">Login</a></li>
-<?php }?>
+ <?php  session_start();    if(!isset($_SESSION['username'])){?>
+           <li><a href="register.php" style="top:18px;" class="waves-effect waves-light btn purple lighten-1">Register</a></li>
+      <li><a  href="login.php" style="top:18px;" class="waves-effect waves-light btn pink accent-3">Login</a></li>
+      </ul>
+<?php } 
+else {
+
+  echo "<li><a href='profile.php'><u> ".$_SESSION['username']."</u></a> </li>  ";
+    //    echo"<li> <a  style='color:#ab47bc'> Cart(". $_SESSION['itemcount'].")</li>";
+    echo "<li><a href='check-cart.php' style='top:18px;' class='waves-effect waves-light btn purple lighten-1' target='_blank'>Check-cart</a></li>";
+    echo "<li><a href='logout.php' style='top:18px;' class='waves-effect waves-light btn purple lighten-1' >Logout</a></li> </ul>";
+        }
+    
+
+?>
+
      
-      </ul>
-
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="popular.php">Popular</a></li>
-        <li><a href="latest.php">Latest</a></li>
-        <li><a href="organize">Organize</a></li>
-          <li><a class="waves-effect waves-light btn purple lighten-1">Register</a></li>
-      <li><a class="waves-effect waves-light btn pink accent-3">Login</a></li>
-      </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>
   </nav>
@@ -60,22 +54,23 @@ $records= mysql_query($sql);
   
       <div class="container">
         <br><br>
-        <h1 class="header center white-text text">Eventize</h1>
+        <h1 class="header center white-text text">Upcoming Events</h1>
         <div class="row center">
-          <h5 class="header col s12 light">A place to search for latest event</h5>
+          <h5 class="header col s12 light">Look for the recent most upcoming events </h5>
         </div>   
       </div>
   </div>
-  
-              <center><h1> Latest Events </h1></center>
-  <div class="container">
-<?php			 
 
-while($event= mysql_fetch_assoc($records)){
+  <div class="container">
+  <ul class="collection">
+<?php			 
+foreach ($events as $event) {
+  # code..
+
      $eid=$event['id'];
       $img=get_img($eid);
 ?>
-<ul class="collection">
+
     <li class="collection-item avatar m-page scene_element scene_element--fadeinup">
       <img src="<?php echo $img[0];?>" class="circle">
   <a href="get_event.php?id=<?php echo $event['id']; ?>">    <span class="title"><strong><?php echo $event['title'];?></strong></span></a>
@@ -83,11 +78,12 @@ while($event= mysql_fetch_assoc($records)){
       </p>
       <a href="#!" class="secondary-content"><i class="mdi-action-grade"></i></a>
     </li>
-	</ul>
+	
 
 <?php	  
 }
 ?>
+</ul>
 </div>
 </body>
 </html>
