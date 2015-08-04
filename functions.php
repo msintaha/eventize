@@ -45,7 +45,7 @@ function get_comments($eid){
 }
 function get_event($id){
 		$events = array();
-	$query = "SELECT id,title,start,end,description,organizer,admin,
+	$query = "SELECT id,title,start,end,description,organizer,ticket,admin,
 	location,date_posted,city,category,contact FROM event 
 	WHERE `id`={$id}";
 	$q= mysql_query($query);

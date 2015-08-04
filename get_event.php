@@ -23,7 +23,7 @@ $comments=get_comments($eid);
   <link rel="stylesheet" type="text/css" href="assets/css/pageTransitions.css">
   <script src="assets/js/jquery.smoothState.js"></script>
   <script src="asset/js/functions.js"></script>
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="assets/js/jquery.js"></script>
   <script src="assets/js/materialize.js"></script>
   <script src="assets/js/init.js"></script>
   <style type="text/css">
@@ -98,12 +98,13 @@ foreach($event as $eve){
             <div class="card-content black-text">
               <span class="card-title" style="color:black;"><?php echo $eve['location']; ?> | <?php echo $eve['city']; ?></span>
               <p><?php echo $eve['contact']; ?></p>
+
               <p>We're all about: <?php echo $eve['category']; ?></p>
             </div>
 <center><a class="waves-effect waves-light btn-large purple lighten-1" href="follow.php?event=<?php echo $eve['id']; ?>"
 ><i class="material-icons left"></i><?php echo $f; ?></a></center>
   <p>
-  <center><h5>JOIN THE EVENT<br><br><i class="material-icons">system_update_alt</i></h5>
+  <center><h5>JOIN THE EVENT<br><br><i class="material-icons"></i></h5>
   <a href="join.php?event=<?php echo $eve['id']; ?>"
    class="btn-floating btn-large waves-effect waves-light pink accent-3" 
   ><i class="material-icons" title="Join the Event">add</i></a></center>
@@ -114,11 +115,13 @@ foreach($event as $eve){
       </div>
 
       <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added 
-    --><br><?php echo $eve['description'] ?>
+    --><br>
+   <h5><?php echo $eve['date_posted']; ?> | Starts at <?php echo $eve['start'] ?></h5>
+    <?php echo $eve['description'] ?>
 
     <form name="sub"  method="POST">
               <input type="hidden" name="buy" value="'.$eid.'" /> </br></br></br></br></br>
-                <button class="btn waves-effect waves-light pink accent-3" type="submit" name="action">Buy ticket to this event
+                <button class="btn waves-effect waves-light pink accent-3" type="submit" name="action">Buy ticket BDT.<?php echo $eve['ticket'];?>
         <i class="mdi-content-send right"></i>
       </button >
               </form>
